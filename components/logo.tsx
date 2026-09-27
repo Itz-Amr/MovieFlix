@@ -1,0 +1,2 @@
+import Link from 'next/link';
+export function Logo(){return <Link href="/" className="group flex items-center gap-2 text-lg font-black tracking-wide"><span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-sky-400 to-blue-600 shadow-[0_0_30px_rgba(14,165,233,.35)] transition-transform group-hover:scale-110">▶</span><span>MOVIE<span className="text-sky-400">FLIX</span></span></Link>}

@@ -1,0 +1,8 @@
+import { redirect } from 'next/navigation';
+import { authFetch, getCurrentUser, isAdminEmail, supabaseAdminConfigured, supabaseConfigured } from '@/lib/supabase-rest';
+import { ResetPasswordButton } from '@/components/admin/reset-password-button';
+
+export default async function UsersPage(){
+ const me=await getCurrentUser(); if(supabaseConfigured&&!me){redirect('/login'); return null as never;} if(supabaseConfigured&&!isAdminEmail(me?.email)){redirect('/profile'); return null as never;}
+ let users:any[]=[]; if(supabaseAdminConfigured){try{const r=await authFetch('/admin/users?page=1&per_page=1000',{},true);if(r.ok)users=(await r.json()).users||[]}catch{}}
+ return <main className="page-shell"><p className="eyebrow">Administration</p><h1 className="page-title">Registered users</h1><p className="mt-3 text-white/45">{users.length} accounts. Passwords are securely hashed by the authentication provider and are not readable.</p><div className="admin-table-wrap mt-8"><table className="admin-table"><thead><tr><th>User</th><th>Username</th><th>Email</th><th>Registered</th><th>Last login</th><th>Action</th></tr></thead><tbody>{users.map((u:any)=><tr key={u.id}><td><strong>{u.user_metadata?.name||'—'}</strong></td><td>@{u.user_metadata?.username||'—'}</td><td>{u.email||'—'}</td><td>{u.created_at?new Date(u.created_at).toLocaleString():'—'}</td><td>{u.last_sign_in_at?new Date(u.last_sign_in_at).toLocaleString():'Never'}</td><td>{u.email?<ResetPasswordButton email={u.email}/>:null}</td></tr>)}{!users.length&&<tr><td colSpan={6} className="py-16 text-center text-white/35">Connect Supabase to start collecting registered users.</td></tr>}</tbody></table></div></main>}

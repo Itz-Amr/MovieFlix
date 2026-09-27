@@ -1,0 +1,3 @@
+import type{Metadata}from'next';import{notFound}from'next/navigation';import{DetailPage}from'@/components/detail-page';import{getDetails}from'@/lib/tmdb';
+export async function generateMetadata({params}:{params:Promise<{id:string}>}):Promise<Metadata>{const{id}=await params;const item=await getDetails('tv',Number(id));return{title:item.title,description:item.overview,openGraph:{title:item.title,description:item.overview,images:[item.backdrop]}}}
+export default async function Page({params}:{params:Promise<{id:string}>}){const{id}=await params;const n=Number(id);if(!Number.isFinite(n))notFound();return <DetailPage item={await getDetails('tv',n)}/>}

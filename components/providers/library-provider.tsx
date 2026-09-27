@@ -1,0 +1,7 @@
+'use client';
+import {createContext,useContext,useEffect,useMemo,useState} from 'react';
+import type {MediaItem} from '@/types/media';
+type Ctx={watchlist:MediaItem[];favorites:MediaItem[];toggleWatchlist:(x:MediaItem)=>void;toggleFavorite:(x:MediaItem)=>void;isWatchlisted:(id:number,kind:string)=>boolean;isFavorite:(id:number,kind:string)=>boolean};
+const C=createContext<Ctx|null>(null); const key=(x:MediaItem)=>`${x.kind}:${x.id}`;
+export function LibraryProvider({children}:{children:React.ReactNode}){const [watchlist,setW]=useState<MediaItem[]>([]),[favorites,setF]=useState<MediaItem[]>([]);useEffect(()=>{try{setW(JSON.parse(localStorage.getItem('movieflix-watchlist')||'[]'));setF(JSON.parse(localStorage.getItem('movieflix-favorites')||'[]'))}catch{}},[]);const toggle=(setter:React.Dispatch<React.SetStateAction<MediaItem[]>>,storage:string,x:MediaItem)=>setter(prev=>{const next=prev.some(i=>key(i)===key(x))?prev.filter(i=>key(i)!==key(x)):[x,...prev];localStorage.setItem(storage,JSON.stringify(next));return next});const value=useMemo(()=>({watchlist,favorites,toggleWatchlist:(x:MediaItem)=>toggle(setW,'movieflix-watchlist',x),toggleFavorite:(x:MediaItem)=>toggle(setF,'movieflix-favorites',x),isWatchlisted:(id:number,kind:string)=>watchlist.some(x=>x.id===id&&x.kind===kind),isFavorite:(id:number,kind:string)=>favorites.some(x=>x.id===id&&x.kind===kind)}),[watchlist,favorites]);return <C.Provider value={value}>{children}</C.Provider>}
+export function useLibrary(){const c=useContext(C);if(!c)throw new Error('LibraryProvider missing');return c}

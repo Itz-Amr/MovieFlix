@@ -1,0 +1,3 @@
+import type{Metadata}from'next';import'./globals.css';import{SiteHeader}from'@/components/site-header';import{Footer}from'@/components/footer';import{LibraryProvider}from'@/components/providers/library-provider';import{ActivityTracker}from'@/components/analytics/activity-tracker';
+export const metadata:Metadata={title:{default:'MovieFlix — Discover movies & TV',template:'%s | MovieFlix'},description:'Discover trending movies, TV shows, cast, trailers and build your personal watchlist with MovieFlix.'};
+export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="en"><body><LibraryProvider><ActivityTracker/><SiteHeader/>{children}<Footer/></LibraryProvider></body></html>}

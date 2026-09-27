@@ -1,0 +1,3 @@
+'use client';
+import {Heart,Plus,Check} from 'lucide-react';import type{MediaItem}from '@/types/media';import{useLibrary}from '@/components/providers/library-provider';
+export function LibraryButtons({item}:{item:MediaItem}){const l=useLibrary();const w=l.isWatchlisted(item.id,item.kind),f=l.isFavorite(item.id,item.kind);return <><button onClick={()=>l.toggleWatchlist(item)} className="secondary-btn">{w?<Check size={18}/>:<Plus size={18}/>} {w?'In Watchlist':'Watchlist'}</button><button onClick={()=>l.toggleFavorite(item)} className={`icon-btn h-12 w-12 ${f?'text-rose-400':''}`} aria-label="favorite"><Heart size={18} className={f?'fill-current':''}/></button></>}

@@ -1,0 +1,1 @@
+export default function Loading(){return <main className="page-shell"><div className="h-10 w-52 animate-pulse rounded bg-white/10"/><div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">{Array.from({length:12}).map((_,i)=><div key={i} className="aspect-[2/3] animate-pulse rounded-2xl bg-white/5"/>)}</div></main>}

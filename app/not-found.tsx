@@ -1,0 +1,2 @@
+import Link from 'next/link';
+export default function NotFound(){return <main className="grid min-h-screen place-items-center px-5 text-center"><div><p className="text-8xl font-black text-sky-500">404</p><h1 className="mt-4 text-3xl font-black">This scene doesn't exist.</h1><p className="mt-3 text-white/45">The title may have moved or the link is incorrect.</p><Link href="/" className="primary-btn mt-7 inline-flex">Back home</Link></div></main>}
